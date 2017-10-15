@@ -1,6 +1,8 @@
 export interface IFbUser {
-  displayName: string;
-  email: string;
-  photoUrl: string;
-  uid: string;
+  name:       string;
+  lastname:   string;
+  profileUrl: string;
+  email:      string;
+  photoUrl:   string;
+  id:         string;
 }

@@ -27,7 +27,28 @@ export class FirebaseService {
   public setUser(user: IUser): void {
 
     this._usersCollection.add(user);
-    
+
+  }
+
+  public getUser(userId: any): any {
+
+    this.users
+      .subscribe((users: Array<IUser>) => {
+
+        return users.filter((user: any) => (user.userId === 'esteesunejemplodeUserIDFacebook'));
+
+      });
+
+    // let userToReturn: IUser;
+    //
+    // this.users.forEach((val: any) => {
+    //
+    //   userToReturn = val.filter((user: any) => (user.userId === 'esteesunejemplodeUserIDFacebook'));
+    //   console.log(userToReturn);
+    // });
+    //
+    // return userToReturn;
+
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit }                               from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute }                                  from '@angular/router';
 import { FirebaseService }                                 from '../../shared/firebase.service';
 
 import { IUser }                                           from '../../shared/firebase';
@@ -15,7 +16,8 @@ export class InitialSetupComponent implements OnInit {
   public invalidField:      boolean;
 
   constructor(private fb:        FormBuilder,
-              private _firebase: FirebaseService) {
+              private _firebase: FirebaseService,
+              private _route:    ActivatedRoute) {
 
     this.createForm();
 
@@ -24,6 +26,10 @@ export class InitialSetupComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this._route.params.subscribe(params => {
+        console.log(params);
+    });
 
     this._firebase.getUsers()
       .subscribe((res: IUser[]) => {

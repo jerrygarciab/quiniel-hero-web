@@ -14,6 +14,7 @@ import { FirebaseService }                  from './shared/firebase.service';
 import { AppComponent }                     from './app.component';
 import { LoginComponent }                   from './components/login/login.component';
 import { InitialSetupComponent }            from './components/initial-setup/initial-setup.component';
+import { HeaderComponent }                  from './components/header/header.component';
 
 import { routes }                           from './app.routes';
 import { environment }                      from '../environments/environment';
@@ -22,7 +23,8 @@ import { environment }                      from '../environments/environment';
   declarations: [
     AppComponent,
     LoginComponent,
-    InitialSetupComponent
+    InitialSetupComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

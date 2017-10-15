@@ -12,22 +12,22 @@ export class LoginService {
 
   constructor(private _auth: AngularFireAuth) { }
 
-  public fbLogin(): void {
+  public fbLogin(): any {
 
-    this._auth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    return this._auth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
 
   }
 
-  public fbLogout(): void {
+  public fbLogout(): any {
 
-    this._auth.auth.signOut();
+    return this._auth.auth.signOut();
 
   }
 
   public storeToken(token: string): void {
 
     this._token = token;
-    
+
   }
 
 }
