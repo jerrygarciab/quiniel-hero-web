@@ -1,0 +1,25 @@
+$fb-color:          #3b5998;
+$fb-color-hover:    #355088;
+$font-color:        #f7f7f7;
+
+div.login-section {
+  display:          table;
+  margin:           0 auto;
+}
+
+button.fb-login {
+  background-color: $fb-color;
+  color:            $font-color;
+  border-color:     $fb-color;
+  cursor:           pointer;
+}
+
+button.fb-login:hover {
+  background-color: $fb-color-hover;
+  border-color:     $fb-color-hover;
+}
+
+button.fb-login::selection {
+  background-color: $fb-color-hover;
+  border-color:     $fb-color-hover;
+}

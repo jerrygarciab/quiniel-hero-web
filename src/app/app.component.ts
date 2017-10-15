@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit }                         from '@angular/core';
+import { LoginService }                              from './shared/login.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'qh-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'app';
+export class AppComponent implements OnInit {
+
+  constructor() { }
+
+  accessToken: string;
+  fbUserID: string;
+  expiresIn: number;
+
+  ngOnInit() { }
 }

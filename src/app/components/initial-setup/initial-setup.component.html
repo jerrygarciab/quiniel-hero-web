@@ -1,0 +1,84 @@
+<form [formGroup]="setupForm" (ngSubmit)="saveUserInformation(setupForm.value)">
+  <div class="setup">
+    <div class="form-row align-items-center">
+      <div class="form-group col-md-4">
+        <label for="nombre">
+          Nombre
+          <span class="setup-alert" *ngIf="setupForm.controls['name'].invalid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="name" class="form-control" id="name" aria-describedby="name" placeholder="Escribe tu Nombre">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="lastname">
+          Apellido
+          <span class="setup-alert" *ngIf="!setupForm.controls['lastName'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="lastName" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Escribe tu Apellido">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="username">
+          Usuario
+          <span class="setup-alert" *ngIf="!setupForm.controls['username'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="username" class="form-control" id="username" aria-describedby="username" placeholder="Escribe tu Usuario">
+      </div>
+    </div>
+    <div class="form-row align-items-center">
+      <div class="form-group col-md-4">
+        <label for="email">
+          Correo Electronico
+          <span class="setup-alert" *ngIf="!setupForm.controls['email'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="email" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="email" class="form-control" id="email" aria-describedby="email" placeholder="Escribe tu Email">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="city">
+          Ciudad
+          <span class="setup-alert" *ngIf="!setupForm.controls['city'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="city" class="form-control" id="city" aria-describedby="city" placeholder="Escribe tu Ciudad">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="state">
+          Estado
+          <span class="setup-alert" *ngIf="!setupForm.controls['state'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="state" class="form-control" id="state" aria-describedby="state" placeholder="Escribe tu Estado">
+      </div>
+    </div>
+    <div class="form-row align-items-center">
+      <div class="form-group col-md-4">
+        <label for="country">
+          Pais
+          <span class="setup-alert" *ngIf="!setupForm.controls['country'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="country" class="form-control" id="country" aria-describedby="country" placeholder="Escribe tu País">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="fav-team">
+          Equipo Favorito
+          <span class="setup-alert" *ngIf="!setupForm.controls['favTeam'].valid && invalidField">Campo Requerido</span>
+        </label>
+        <input type="text" [class.setup-error]="setupForm.controls['name'].invalid && invalidField" formControlName="favTeam" class="form-control" id="fav-team" aria-describedby="fav-team" placeholder="Escribe tu el Nombre de tu Equipo">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="pic">
+          Foto de Perfil
+        </label>
+        <input type="file" class="form-control-file" id="pic">
+      </div>
+    </div>
+    <div class="form-row align-items-center">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input formControlName="terms" type="checkbox" class="form-check-input">
+          Acepto los términos y condiciones
+          <span class="setup-alert" *ngIf="!setupForm.controls['terms'].valid && invalidField">Campo Requerido</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row align-items-center">
+      <button [disabled]="!setupForm.valid && setupForm.submitted" type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </div>
+  </div>
+</form>
