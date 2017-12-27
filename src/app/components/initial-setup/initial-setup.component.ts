@@ -12,8 +12,11 @@ import { IUser }                                           from '../../shared/fi
 })
 export class InitialSetupComponent implements OnInit {
 
-  public setupForm:         FormGroup;
-  public invalidField:      boolean;
+  public setupForm:    FormGroup;
+  public invalidField: boolean;
+  public user:         string;
+  public lastname:     string;
+  public email:        string;
 
   constructor(private fb:        FormBuilder,
               private _firebase: FirebaseService,

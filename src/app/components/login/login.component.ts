@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
   }
 
   private _checkIfLogged(): void {
-    
+
     this._auth.authState
       .subscribe(res => {
 
@@ -89,9 +89,12 @@ export class LoginComponent implements OnInit {
       .subscribe((users: Array<IUser>) => {
 
         userLocal = users.filter((user: any) => (user.userId === 'esteesunejemplodeUserIDFacebook'));
+
         // TODO change logic to be inverse...
         (userLocal.length > 0) ? this._router.navigate(['setup', this.user], {skipLocationChange: true}) : this._router.navigate(['login']);
 
+      },err => {
+        console.error(err);
       });
 
 

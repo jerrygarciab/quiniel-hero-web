@@ -1,0 +1,23 @@
+{
+  "quinielas": [
+    {
+      "status": "A",
+      "users": [
+        "user1",
+        "user2"
+      ],
+      "id": "string",
+      "adminUser": "string"
+    },
+    {
+      "status": "D",
+      "users": [
+        "user3",
+        "user4",
+        "user5"
+      ],
+      "id": "string",
+      "adminUser": "string"
+    }
+  ]
+}

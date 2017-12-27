@@ -1,0 +1,49 @@
+{
+  "picks": [
+    {
+      "quinielaId": "string",
+      "userId": "string",
+      "jornada": "1",
+      "picks": [
+        {
+          "MTY": 2,
+          "TIG": 0
+        },
+        {
+          "AME": 1,
+          "TOL": 0
+        }
+      ]
+    },
+    {
+      "quinielaId": "string",
+      "userId": "string",
+      "jornada": "2",
+      "picks": [
+        {
+          "PUE": 1,
+          "LBU": 3
+        },
+        {
+          "TIG": 1,
+          "ATS": 1
+        }
+      ]
+    },
+    {
+      "quinielaId": "string",
+      "userId": "string",
+      "jornada": "QF-1",
+      "picks": [
+        {
+          "MTY": 2,
+          "CAZ": 0
+        },
+        {
+          "AME": 1,
+          "LEO": 2
+        }
+      ]
+    }
+  ]
+}
