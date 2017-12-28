@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "city": "Monterrey",
+      "country": "Mexico",
+      "email": "admin@gware.com",
+      "favorite_team": "Rayados",
+      "last_name": "admin",
+      "name": "admin",
+      "profile_picture": "estoesunstringquetienenumeros38373",
+      "state": "Nuevo Leon",
+      "userId": "101554735776853390",
+      "username": "admin",
+      "quiniela": "quinielaID",
+      "status": "N"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   public user = {} as IFbUser;
 
-  constructor(private _auth:   AngularFireAuth,
+  constructor(public   auth:   AngularFireAuth,
               private _login:  LoginService,
               private _db:     FirebaseService,
               private _router: Router) { }
@@ -61,11 +61,14 @@ export class LoginComponent implements OnInit {
 
   private _checkIfLogged(): void {
 
-    this._auth.authState
+    this.auth.authState
       .subscribe(res => {
 
         if (res !== null) this._decideNextComponent();
 
+      },
+      err => {
+        console.error(err);
       });
 
   }
@@ -79,6 +82,8 @@ export class LoginComponent implements OnInit {
     this.user.photoUrl   = userInfo.profile.picture.data.url;
     this.user.id         = userInfo.profile.id;
 
+    this._login.setUserInformation(this.user);
+
   }
 
   private _decideNextComponent(): void {
@@ -88,10 +93,9 @@ export class LoginComponent implements OnInit {
     this._db.getUsers()
       .subscribe((users: Array<IUser>) => {
 
-        userLocal = users.filter((user: any) => (user.userId === 'esteesunejemplodeUserIDFacebook'));
+        userLocal = users.filter((user: any) => (user.userID === this.user.id));
 
-        // TODO change logic to be inverse...
-        (userLocal.length > 0) ? this._router.navigate(['setup', this.user], {skipLocationChange: true}) : this._router.navigate(['login']);
+        (userLocal.length === 0) ? this._router.navigate(['setup']) : this._router.navigate(['quiniela-setup']);
 
       },err => {
         console.error(err);

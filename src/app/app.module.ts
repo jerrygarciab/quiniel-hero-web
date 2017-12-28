@@ -18,9 +18,9 @@ import { HeaderComponent }                  from './components/header/header.com
 
 import { routes }                           from './app.routes';
 import { environment }                      from '../environments/environment';
-import { QuinielaSetupComponent } from './components/quiniela-setup/quiniela-setup.component';
-import { InviteFriendsComponent } from './components/invite-friends/invite-friends.component';
-import { MyPicksComponent } from './components/my-picks/my-picks.component';
+import { QuinielaSetupComponent }           from './components/quiniela-setup/quiniela-setup.component';
+import { InviteFriendsComponent }           from './components/invite-friends/invite-friends.component';
+import { MyPicksComponent }                 from './components/my-picks/my-picks.component';
 
 @NgModule({
   declarations: [

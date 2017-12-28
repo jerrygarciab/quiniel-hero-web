@@ -1,9 +1,9 @@
 <div style="text-align:center">
   <img width="300" src="../assets/img/logo_full-color_transparente.png">
 </div>
-<div *ngIf="_auth.authState | async; let user; else showLogin">
-  <h1>Hello {{ user.displayName }}!</h1>
-  <button (click)="logout()">Logout</button>
+<div *ngIf="auth.authState | async; let user; else showLogin">
+  <!-- <h1>Hello {{ user.displayName }}!</h1>
+  <button (click)="logout()">Logout</button> -->
 </div>
 <ng-template #showLogin>
   <div class="login-section">

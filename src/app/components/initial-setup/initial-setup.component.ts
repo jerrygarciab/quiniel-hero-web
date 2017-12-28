@@ -1,7 +1,11 @@
 import { Component, OnInit }                               from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute }                                  from '@angular/router';
+import { Router }                                          from '@angular/router';
+import { Observable }                                      from 'rxjs/Rx';
+import { forkJoin }                                        from "rxjs/observable/forkJoin";
 import { FirebaseService }                                 from '../../shared/firebase.service';
+
+import { LoginService }                                    from '../../shared/login.service';
 
 import { IUser }                                           from '../../shared/firebase';
 
@@ -14,65 +18,68 @@ export class InitialSetupComponent implements OnInit {
 
   public setupForm:    FormGroup;
   public invalidField: boolean;
+  public name:         string;
   public user:         string;
   public lastname:     string;
   public email:        string;
+  public userId:       string;
 
   constructor(private fb:        FormBuilder,
               private _firebase: FirebaseService,
-              private _route:    ActivatedRoute) {
-
-    this.createForm();
-
-    this.invalidField     = false;
-
-  }
+              private _login:    LoginService,
+              private _router:   Router) { }
 
   ngOnInit() {
 
-    this._route.params.subscribe(params => {
-        console.log(params);
-    });
+    this.invalidField = false;
 
-    this._firebase.getUsers()
-      .subscribe((res: IUser[]) => {
+    this._login.loginInfo$
+      .subscribe(userInfo => {
 
-        console.log(res);
+        if (userInfo !== null) {
 
-      })
+          this.name     = userInfo.name;
+          this.lastname = userInfo.lastname;
+          this.email    = userInfo.email;
+          this.userId   = userInfo.id;
+
+        }
+
+        this.createForm();
+
+      });
+
   }
 
   saveUserInformation(post): void {
 
-    if (this.setupForm.valid) {
+    this.invalidField = (!this.setupForm.valid);
 
-      //this._firebase.setUser(post);
-      console.log(post);
-      this.setupForm.reset();
+    if (this.invalidField) return;
 
-    } else {
-
-      this.invalidField = true;
-
-    }
+    this._firebase.setUser(post);
+    this.setupForm.reset();
+    this._router.navigate(['quiniela-setup']);
 
   }
 
   // Auxiliar Functions //
 
   createForm(): void {
+
     this.setupForm = this.fb.group({
-      name:     [null, Validators.required],
-      lastName: [null, Validators.required],
+      name:     [this.name, Validators.required],
+      lastName: [this.lastname, Validators.required],
       username: [null, Validators.required],
-      email:    [null, Validators.email],
+      email:    [this.email, Validators.email],
       city:     [null, Validators.required],
       state:    [null, Validators.required],
       country:  [null, Validators.required],
       favTeam:  [null, Validators.required],
       terms:    [null, Validators.required],
-      userID:   ['jdsjjjsdjdjsd'],
-    })
+      userID:   [this.userId],
+    });
+
   }
 
 }

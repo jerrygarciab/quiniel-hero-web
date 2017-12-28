@@ -1,4 +1,5 @@
 import { Injectable }      from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable }      from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { IFbUser }         from '../shared/fb-user';
@@ -9,6 +10,9 @@ import * as firebase       from 'firebase/app';
 export class LoginService {
 
   private _token: string;
+  private loginSource = new BehaviorSubject(null);
+
+  public loginInfo$ = this.loginSource.asObservable();
 
   constructor(private _auth: AngularFireAuth) { }
 
@@ -27,6 +31,12 @@ export class LoginService {
   public storeToken(token: string): void {
 
     this._token = token;
+
+  }
+
+  public setUserInformation(userInfo): void {
+
+    this.loginSource.next(userInfo);
 
   }
 

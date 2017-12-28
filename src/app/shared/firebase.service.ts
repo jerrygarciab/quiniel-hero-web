@@ -1,5 +1,6 @@
 import { Injectable }                                   from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { BehaviorSubject }                              from 'rxjs/BehaviorSubject';
 import { Observable }                                   from 'rxjs/Observable';
 
 import { IUser }                                        from './firebase';

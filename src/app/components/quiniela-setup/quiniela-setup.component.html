@@ -1,5 +1,11 @@
+<qh-header></qh-header>
 <div>
   <p>Invitar Amigos</p>
-  <input type="text" placeholder="Enter email">
-  <button>Buscar</button>
+  <input type="text" placeholder="Email or Username">
+  <button (click)="_searchUser()">Buscar</button>
+</div>
+<div *ngIf="users.length > 0">
+  <ng-container *ngFor="let user of users">
+    <pre>{{ user | json }}</pre>
+  </ng-container>
 </div>

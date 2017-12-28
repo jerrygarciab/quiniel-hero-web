@@ -11,5 +11,5 @@ export const routes: Routes = [
   { path: 'my-picks', component: MyPicksComponent},
   { path: 'quiniela-setup',  component: QuinielaSetupComponent},
   { path: 'invite-friends', component: InviteFriendsComponent},
-  { path:            '', redirectTo: '/login', pathMatch: 'full'}
+  { path: '', redirectTo: '/login', pathMatch: 'full'}
 ];
