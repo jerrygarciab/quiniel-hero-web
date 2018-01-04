@@ -1,3 +1,45 @@
-<p>
-  my-picks works!
-</p>
+<qh-header></qh-header>
+<form [formGroup]="picksForm" (ngSubmit)="savePicksInformation(picksForm.value)">
+    <span class="picktitle">Realiza tus picks de la jornada</span>
+    <div class="picks">
+        <div class="form-row align-items-center">
+                <div class="form-row align-items-center">
+                </div>
+                      <div class="form-row align-items-center">
+                    <ul>
+                        <li *ngFor="let game of gamespicks">
+                            {{game.local}}
+                                <select formControlName="local{{game.match}}">
+                                        <option value=""></option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                </select>
+                                -
+                                <select formControlName="visita{{game.match}}">
+                                        <option value=""></option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                </select>
+                                {{game.visita}}
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+    <div class="form-row align-items-center">
+            <button [disabled]="!theresalist" type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button [disabled]="!theresalist" type="submit" class="btn btn-primary">Enviar Picks</button>
+          </div>
+</form>
