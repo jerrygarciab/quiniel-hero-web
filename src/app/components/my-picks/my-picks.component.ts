@@ -51,6 +51,9 @@ export class MyPicksComponent implements OnInit {
     }
 
   }
+  sendPicks(): void {
+    
+  }
 
   createForm(){
     this.picksForm = this.fb.group({

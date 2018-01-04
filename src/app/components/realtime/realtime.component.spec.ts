@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InviteFriendsComponent } from './invite-friends.component';
+import { RealTimeComponent } from './realtime.component';
 
-describe('InviteFriendsComponent', () => {
-  let component: InviteFriendsComponent;
-  let fixture: ComponentFixture<InviteFriendsComponent>;
+describe('RealTimeComponent', () => {
+  let component: RealTimeComponent;
+  let fixture: ComponentFixture<RealTimeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InviteFriendsComponent ]
+      declarations: [ RealTimeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InviteFriendsComponent);
+    fixture = TestBed.createComponent(RealTimeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
