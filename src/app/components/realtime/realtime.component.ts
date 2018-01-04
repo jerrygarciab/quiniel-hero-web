@@ -12,35 +12,36 @@ import { IUser }                                           from '../../shared/fi
 })
 export class RealTimeComponent implements OnInit {
   
-  public usermap: Array<any>;
+  public pointsMap: Array<any>;
   public invalidField: boolean;
-  public inviteForm:    FormGroup;
+  public realTimeForm:    FormGroup;
   public theresalist: boolean = false;
 
   constructor(private fb:        FormBuilder,
               ) {
       this.createForm();
       this.invalidField     = false;
+      this.pointsMap = [
+        { "userid":"ger10a", "nombre":"Gerardo", "points":"7", "maxpoints": "15" },
+        { "userid":"kluzter5", "nombre":"Emmanuel", "points":"10", "maxpoints": "15" },
+        { "userid":"shizza7", "nombre":"Cesar", "points":"1", "maxpoints": "12" }
+      ];
     }
 
   ngOnInit() {
   }
 
-  searchFriends(): void {
-    this.usermap = [
-      { "userid":"ger10a", "nombre":"Gerardo", "username":"ger10" },
-      { "userid":"kluzter5", "nombre":"Emmanuel", "username":"kluzter" },
-      { "userid":"shizza7", "nombre":"Cesar", "username":"tolegol" }
-    ];
+  getReal(): void {
+    
     this.theresalist = true;
   }
-  searchFriendsInformation(post): void {
+  getRealTime(post): void {
   
-        if (this.inviteForm.valid) {
+        if (this.realTimeForm.valid) {
     
           //this._firebase.setUser(post);
           console.log(post);
-          this.inviteForm.reset();
+          this.realTimeForm.reset();
           
         } else {
     
@@ -54,9 +55,9 @@ export class RealTimeComponent implements OnInit {
   // Auxiliar Functions //
 
   createForm(): void {
-    this.inviteForm = this.fb.group({
+    this.realTimeForm = this.fb.group({
       name:     [null, Validators.required],
-      username:     [null, Validators.required],
+      points:     [null, Validators.required],
       userID:   ['jdsjjjsdjdjsd'],
     })
   }
