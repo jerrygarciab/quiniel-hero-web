@@ -1,0 +1,25 @@
+<qh-header></qh-header>
+<form [formGroup]="inviteForm" (ngSubmit)="searchFriends(inviteForm.value)">
+  <div class="search">
+      <div class="form-group col-md-4">
+          <label for="username">
+            Usuario
+            <span class="search-alert" *ngIf="!inviteForm.controls['username'].valid && invalidField">Campo Requerido</span>
+          </label>
+          <input type="text" [class.setup-error]="inviteForm.controls['username'].invalid && invalidField" formControlName="username" class="form-control" id="username" aria-describedby="username" placeholder="Busca usuario o email">
+      </div>
+       <div class="form-row align-items-center">
+            <button (click)="searchFriends()">Buscar</button>
+      </div>
+
+
+      <div class="form-row align-items-center">
+          <ul>
+              <li *ngFor="let ulist of usermap"><input type="checkbox" value={{ulist.userid}}> {{ulist.nombre}}</li>
+          </ul>
+      </div>
+      <div class="form-row align-items-center">
+        <button [disabled]="!theresalist" type="submit" class="btn btn-primary">Confirmar Amigos</button>
+      </div>
+    </div>
+</form>
