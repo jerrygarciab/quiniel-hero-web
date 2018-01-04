@@ -6,11 +6,11 @@ import { FirebaseService }                                 from '../../shared/fi
 import { IUser }                                           from '../../shared/firebase';
 
 @Component({
-  selector: 'app-invite-friends',
-  templateUrl: './invite-friends.component.html',
-  styleUrls: ['./invite-friends.component.scss']
+  selector: 'app-realtime',
+  templateUrl: './realtime.component.html',
+  styleUrls: ['./realtime.component.scss']
 })
-export class InviteFriendsComponent implements OnInit {
+export class RealTimeComponent implements OnInit {
   
   public usermap: Array<any>;
   public invalidField: boolean;
