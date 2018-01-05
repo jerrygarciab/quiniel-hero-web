@@ -2,43 +2,56 @@
 <form [formGroup]="picksForm" (ngSubmit)="savePicksInformation(picksForm.value)">
     <span class="picktitle">Realiza tus picks de la jornada</span>
     <div class="picks">
-        <div class="form-row align-items-center">
-                <div class="form-row align-items-center">
-                </div>
-                      <div class="form-row align-items-center">
-                    <ul>
-                        <li *ngFor="let game of gamespicks">
-                            {{game.local}}
+            <div class="form-row align-items-center">
+                <table class="picks">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Local</th>
+                            <th></th>
+                            <th colspan="2">Visitante</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let game of gamespicks">
+                            <td class="local">{{game.local}}</td>
+                            <td class="gol">
+                                <div class="styled-select green rounded">
                                 <select formControlName="local{{game.match}}">
-                                        <option value=""></option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
                                 </select>
-                                -
+                                </div>
+                            </td>
+                            <td class="middleseparator"> - </td>
+                            <td>
                                 <select formControlName="visita{{game.match}}">
-                                        <option value=""></option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
                                 </select>
-                                {{game.visita}}
-                        </li>
-                    </ul>
-                </div>
-        </div>
+                            </td>
+                            <td class="visita">{{game.visita}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+            </div>
     </div>
     <div class="form-row align-items-center">
-            <button [disabled]="!theresalist" (click)="sendPicks()"class="btn btn-primary">Enviar Picks</button>
+            <button [disabled]="!picksForm.valid && picksForm.submitted" type="submit" class="btn btn-primary">Enviar Picks</button>
           </div>
+          <!-- <div class="form-row align-items-center">
+                <button [disabled]="!setupForm.valid && setupForm.submitted" type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div> -->
 </form>
