@@ -8,10 +8,18 @@ import { LoginService }      from '../../shared/login.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  public linksmap: Array<any>;
   constructor(private _login:  LoginService,
-              private _router: Router) { }
-
+              private _router: Router) { 
+                this.linksmap = [
+                  { "href":"/my-picks", "display":"Mis Picks"},
+                  { "href":"/realtime", "display":"Tiempo Real"},
+                  { "href":"/overallpoints", "display":"Acumulado del Torneo"},
+//                  { "href":"/mypicks", "display":"Administrar"},
+                  { "href":"/invite-friends", "display":"Invitar Amigos"},
+                  { "href":"/quiniela-setup", "display":"Crear Quiniela"},
+                ];
+              }
   ngOnInit() {
   }
 
@@ -28,5 +36,6 @@ export class HeaderComponent implements OnInit {
       });
 
   }
+
 
 }

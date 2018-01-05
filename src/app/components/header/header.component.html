@@ -7,24 +7,9 @@
   </a>
   <div class="collapse navbar-collapse" id="nav-content">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Mis Picks</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="#">TiempoReal</a>
+        <li class="nav-link" *ngFor="let links of linksmap">
+          <a class="nav-link" href={{links.href}}>{{links.display}}</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Acumulado</a>
-          </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Administrar</a>
-      </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Invitar Amigos</a>
-          </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Crear Quiniela</a>
-      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <span class="user">Jerry Garcia</span>&nbsp;
