@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { ActivatedRoute }                                  from '@angular/router';
+import { FirebaseService }                                 from '../../shared/firebase.service';
+
+import { IUser }                                           from '../../shared/firebase';
+
 @Component({
   selector: 'app-my-picks',
   templateUrl: './my-picks.component.html',
@@ -10,15 +15,27 @@ export class MyPicksComponent implements OnInit {
   public picksForm:    FormGroup;
   public invalidField: boolean;
   public gamespicks: Array<any>;
+  public goles: Array<any>
+ 
 
-  constructor(private fb:        FormBuilder
-              ) {
+  constructor(private fb:        FormBuilder,
+              private _firebase: FirebaseService,
+              private _route:    ActivatedRoute) {
       this.createForm();
       this.invalidField     = false;
       this.picksgen();
+      // this.goles = Array.from(new Array(9), (x,i) => i+1);
     }
 
   ngOnInit() {
+        this._route.params.subscribe(params => {
+          console.log(params);
+      });
+
+      this._firebase.getUsers()
+        .subscribe((res: IUser[]) => {
+          console.log(res);
+        })
   }
   picksgen(): void {
     this.gamespicks = [
@@ -39,15 +56,11 @@ export class MyPicksComponent implements OnInit {
   savePicsInformation(post): void {
 
     if (this.picksForm.valid) {
-
       //this._firebase.setUser(post);
       console.log(post);
       this.picksForm.reset();
-
     } else {
-
       this.invalidField = true;
-
     }
 
   }
