@@ -15,3 +15,10 @@ interface IAddress {
   country: string;
   state: string;
 }
+
+export interface IQuiniela {
+  active:number;
+  idQuiniela:number;
+  quinielaname:string;
+  adminuser:IUser;
+}

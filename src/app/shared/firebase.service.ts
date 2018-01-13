@@ -2,19 +2,25 @@ import { Injectable }                                   from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable }                                   from 'rxjs/Observable';
 
-import { IUser }                                        from './firebase';
+import { IUser, IQuiniela }                                        from './firebase';
 
 @Injectable()
 export class FirebaseService {
 
   private _usersCollection: AngularFirestoreCollection<IUser>;
+  private _quinielasCollection: AngularFirestoreCollection<IQuiniela>;
 
   public users:             Observable<IUser[]>;
+  public quinielas:         Observable<IQuiniela[]>;
 
   constructor(private _afs: AngularFirestore) {
 
     this._usersCollection = this._afs.collection<IUser>('users');
     this.users = this._usersCollection.valueChanges();
+
+    this._quinielasCollection = this._afs.collection<IQuiniela>('quinielas');
+    this.quinielas = this._quinielasCollection.valueChanges();
+
 
   }
 
@@ -48,6 +54,13 @@ export class FirebaseService {
     // });
     //
     // return userToReturn;
+
+  }
+
+  //Quiniela functions
+  public setQuiniela(quiniela: IQuiniela): void {
+
+    this._quinielasCollection.add(quiniela);
 
   }
 

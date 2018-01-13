@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute }                                  from '@angular/router';
+import { FirebaseService }                                 from '../../shared/firebase.service';
 
 @Component({
   selector: 'app-quiniela-setup',
@@ -11,7 +13,9 @@ export class QuinielaSetupComponent implements OnInit {
   public invalidField: boolean;
   public quiniela:         string;
 
-  constructor(private fb:        FormBuilder) {
+  constructor(private fb:        FormBuilder,
+              private _firebase: FirebaseService,
+              private _route:    ActivatedRoute) {
 
     this.createForm();
 
@@ -24,9 +28,9 @@ export class QuinielaSetupComponent implements OnInit {
 
     if (this.qsetupForm.valid) {
 
-      //this._firebase.setUser(post);
+      this._firebase.setQuiniela(post);
       console.log(post);
-      this.qsetupForm.reset();
+      //this.qsetupForm.reset();
 
     } else {
 
@@ -37,7 +41,10 @@ export class QuinielaSetupComponent implements OnInit {
   }
   createForm(): void {
     this.qsetupForm = this.fb.group({
-      quiniela:     [null, Validators.required]
+      quiniela:     [null, Validators.required],
+      active:       [true],
+      idQuiniela:   [1],
+      adminuser: ["Kluzter"] // hcode for now, should come from session valid username
     })
   }
 }

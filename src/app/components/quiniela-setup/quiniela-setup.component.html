@@ -7,7 +7,7 @@
         <span class="setup-alert" *ngIf="qsetupForm.controls['quiniela'].invalid && invalidField">Campo Requerido</span>
       </label>
       <input type="text" [class.setup-error]="qsetupForm.controls['quiniela'].invalid && invalidField" formControlName="quiniela" class="form-control" id="quiniela" aria-describedby="quiniela" placeholder="Escribe el nombre de la Quiniela">
-      <button>Crear Quiniela</button>
+      <button [disabled]="!qsetupForm.valid && qsetupForm.submitted"  type="submit" class="btn btn-primary">Crear Quiniela</button>
     </div>
   </div>
 </form>
