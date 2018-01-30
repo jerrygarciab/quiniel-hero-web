@@ -5,7 +5,7 @@ export interface IUser {
   name: string;
   profilePicture: string;
   username: string;
-  user_id: string;
+  userID: string;
   address: IAddress;
 }
 
@@ -17,8 +17,17 @@ interface IAddress {
 }
 
 export interface IQuiniela {
-  active:number;
+  active:boolean;
   idQuiniela:number;
   quinielaname:string;
   adminuser:IUser;
+}
+
+interface userIDlist{
+  ulist:Array<IUser>;
+
+}
+export interface IQuinUser {
+  idQuiniela:number;
+  usersid:userIDlist;
 }
