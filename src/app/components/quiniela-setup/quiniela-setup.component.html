@@ -4,11 +4,33 @@
     <div class="form-group col-md-4">
       <label for="nombre">
         Nombre de la Quiniela
-        <span class="setup-alert" *ngIf="qsetupForm.controls['quiniela'].invalid && invalidField">Campo Requerido</span>
+        <span class="setup-alert" *ngIf="qsetupForm.controls['quinielaname'].invalid && invalidField">Campo Requerido</span>
       </label>
-      <input type="text" [class.setup-error]="qsetupForm.controls['quiniela'].invalid && invalidField" formControlName="quiniela" class="form-control" id="quiniela" aria-describedby="quiniela" placeholder="Escribe el nombre de la Quiniela">
+      <input type="text" [class.setup-error]="qsetupForm.controls['quinielaname'].invalid && invalidField" formControlName="quinielaname" class="form-control" id="quinielaname" aria-describedby="quinielaname" placeholder="Escribe el nombre de la Quiniela">
       <button [disabled]="!qsetupForm.valid && qsetupForm.submitted"  type="submit" class="btn btn-primary">Crear Quiniela</button>
     </div>
   </div>
 </form>
+
+<hr>
+<div class="container" *ngIf="quinielas.length>0;else noData">
+  <ul *ngFor="let quini of quinielas" class="list-group">
+    <li class="list-group-user">
+      <strong>{{quini.quinielaname}}</strong> : {{quini.mobile_no}}
+
+      <a (click)="onDelete(quini)" >
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </a>
+
+    </li>
+
+  </ul>
+
+</div>
+<div class="container">
+  <ng-template #noData>
+    <hr>
+    <h5>There are no users to display</h5>
+  </ng-template>
+</div>
  

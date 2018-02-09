@@ -1,12 +1,14 @@
 export interface IUser {
   email: string;
-  favorite_team: string;
-  last_name: string;
+  favTeam: string;
+  lastname: string;
   name: string;
   profilePicture: string;
   username: string;
   userID: string;
   address: IAddress;
+  terms: true;
+  userkey: string;
 }
 
 
@@ -21,6 +23,7 @@ export interface IQuiniela {
   idQuiniela:number;
   quinielaname:string;
   adminuser:IUser;
+  quinielakey:string;
 }
 
 interface userIDlist{
@@ -29,5 +32,5 @@ interface userIDlist{
 }
 export interface IQuinUser {
   idQuiniela:number;
-  usersid:userIDlist;
+  usersid:Array<IUser>;
 }

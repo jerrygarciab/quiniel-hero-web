@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute }                                  from '@angular/router';
 import { FirebaseService }                                 from '../../shared/firebase.service';
-import { IUser } from '../../shared/firebase';
+import { IUser, IQuiniela } from '../../shared/firebase';
 
 @Component({
   selector: 'app-quiniela-setup',
@@ -11,9 +11,10 @@ import { IUser } from '../../shared/firebase';
 })
 export class QuinielaSetupComponent implements OnInit {
   public qsetupForm:    FormGroup;
-  public invalidField: boolean;
-  public quiniela:         string;
-  public adminId: IUser;
+  public invalidField:  boolean;
+  public quinielaname:  string;
+  public adminId:       IUser;
+  public quinielas:      IQuiniela[] = [];
 
   constructor(private fb:        FormBuilder,
               private _firebase: FirebaseService,
@@ -21,19 +22,24 @@ export class QuinielaSetupComponent implements OnInit {
   
     //TODO get this userid from "session" or realFirebasehit
     //this.adminID = getUser('idUsuario');
-    this.adminId = {email: "string",
-      favorite_team: "string",
-      last_name: "string",
+    this.adminId = {
+      email: "string",
+      favTeam: "string",
+      lastname: "string",
       name: "string",
       profilePicture: "string",
       username: "string",
       userID: "kluzter",
+      terms: true,
+      userkey: "fpRImo5ubuhztuT8IH6y",
       address: {
         city: "string",
         country: "string",
         state: "string"
-      }
+      },
+
     };
+
     this.createForm();
     this.invalidField = false;
 
@@ -45,8 +51,9 @@ export class QuinielaSetupComponent implements OnInit {
       console.log(params);
     });
   
-    this._firebase.getUsers()
-    .subscribe((res: IUser[]) => {
+    this._firebase.getQuinielas()
+    .subscribe((res: IQuiniela[]) => {
+      this.quinielas = res;
       console.log(res);
     });
 
@@ -70,13 +77,12 @@ export class QuinielaSetupComponent implements OnInit {
   createForm(): void {
   
    // console.log("AdminID sent"+this.adminId.userID);
-
     this.qsetupForm = this.fb.group({
-      quiniela:     [null, Validators.required],
+      quinielaname:     [null, Validators.required],
       active:       [true],
       idQuiniela:   [1],
-     // userid:       [null, Validators.required],
-      IUser:    this.adminId // hcode for now, should come from session valid username
+      userkey:      this.adminId.userkey,
+      adminuser:    this.adminId // hcode for now, should come from session valid username
     })
   }
 

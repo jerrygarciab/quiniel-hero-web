@@ -1,8 +1,9 @@
 import { Injectable }                                   from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable }                                   from 'rxjs/Observable';
 
 import { IUser, IQuiniela, IQuinUser }                                        from './firebase';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable()
 export class FirebaseService {
@@ -15,15 +16,36 @@ export class FirebaseService {
   public quinielas:         Observable<IQuiniela[]>;
   public quinUsers:         Observable<IQuinUser[]>;
 
+  public userDoc:           AngularFirestoreDocument<IUser>;
+  public quinielaDoc:       AngularFirestoreDocument<IQuiniela>;
+
   constructor(private _afs: AngularFirestore) {
 
-    this._usersCollection = this._afs.collection<IUser>('users');
-    this.users = this._usersCollection.valueChanges();
+    this._usersCollection = this._afs.collection<IUser>('users', x => x.orderBy('username', 'asc'));
+    this.users = this._usersCollection.snapshotChanges().map(
+                  changes => {
+                    return changes.map(
+                      a => {
+                        const data = a.payload.doc.data() as IUser;
+                        data.userkey = a.payload.doc.id;
+                        return data;
+                      });
+                  }
+              );
 
-    this._quinielasCollection = this._afs.collection<IQuiniela>('quinielas');
-    this.quinielas = this._quinielasCollection.valueChanges();
+    this._quinielasCollection = this._afs.collection<IQuiniela>('quinielas', x => x.orderBy('idQuiniela', 'asc'));
+    this.quinielas = this._quinielasCollection.snapshotChanges().map(
+                      changes => {
+                        return changes.map(
+                          a => {
+                            const data = a.payload.doc.data() as IQuiniela;
+                            data.quinielakey = a.payload.doc.id;
+                            return data;
+                          });
+                      }
+  );
 
-    this._quinUsersCollection = this._afs.collection<IQuinUser>('quinielausers');
+    this._quinUsersCollection = this._afs.collection<IQuinUser>('iusers');
     this.quinUsers = this._quinUsersCollection.valueChanges();
 
   }
@@ -48,18 +70,6 @@ export class FirebaseService {
   }
 //console.log("NAME:"+this.users.)
    return userToReturn;
-  
-  //return IUser;
-  
-    // let userToReturn: IUser;
-    
-    // this.users.forEach((val: any) => {
-    
-    //   userToReturn = val.filter((user: any) => (user.userId === '1824917164205033'));//hardoded user kluz
-    //   console.log(userToReturn);
-    // });
-    
-    // return userToReturn;
 
   }
 
@@ -81,11 +91,16 @@ export class FirebaseService {
     this._usersCollection.add(user);
 
   }
+  public deleteUser(user) { // TODO test this shiat
+    this.userDoc = this._afs.doc('users/${user.userid}');
+    this.userDoc.delete();
+  }
 
   //AcceptFriends functions
-  public acceptFriends(quiniela: IQuinUser): void {
-
-    this._quinUsersCollection.add(quiniela);
+  public acceptFriends(quiniela: IQuiniela): void {
+    this.quinielaDoc = this._afs.doc('quinielas/${quiniela.idQuiniela}');
+    
+    //this._quinUsersCollection.add(quiniela);
 
   }
 
