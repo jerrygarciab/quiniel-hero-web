@@ -24,6 +24,7 @@ export interface IQuiniela {
   quinielaname:string;
   adminuser:IUser;
   quinielakey:string;
+  usersid:Array<IUser>;
 }
 
 interface userIDlist{
@@ -31,6 +32,6 @@ interface userIDlist{
 
 }
 export interface IQuinUser {
-  idQuiniela:number;
+  idQuiniela:string;
   usersid:Array<IUser>;
 }
