@@ -2,7 +2,7 @@ import { Injectable }                                   from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable }                                   from 'rxjs/Observable';
 
-import { IUser, IQuiniela, IQuinUser }                                        from './firebase';
+import {IUser, IQuiniela, IQuinUser, IRoundPick, ITournament} from './firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 
@@ -11,7 +11,7 @@ export class FirebaseService {
 
   private _usersCollection: AngularFirestoreCollection<IUser>;
   private _quinielasCollection: AngularFirestoreCollection<IQuiniela>;
-  private _quinUsersCollection: AngularFirestoreCollection<IQuiniela>;
+  private _quinUsersCollection: AngularFirestoreCollection<IUser>;
 
   public users:             Observable<IUser[]>;
   public quinielas:         Observable<IQuiniela[]>;
@@ -36,21 +36,24 @@ export class FirebaseService {
                   }
               );
 
-    this._quinielasCollection = this._afs.collection<IQuiniela>('quinielas', x => x.orderBy('idQuiniela', 'asc'));
+    // this._quinielasCollection = this._afs.collection<IQuiniela>('quinielas', x => x.orderBy('idQuiniela', 'asc'));
+
+    this._quinielasCollection = this._afs.collection<IQuiniela>('quinielas');
+    // this.quinielas = this._quinielasCollection.valueChanges();
+
     this.quinielas = this._quinielasCollection.snapshotChanges().map(
                       changes => {
                         return changes.map(
                           a => {
                             const data = a.payload.doc.data() as IQuiniela;
                             data.quinielakey = a.payload.doc.id;
-                          
+
                             return data;
                           });
-                      }
-  );
+                      });
 
-   
-  
+
+
 
   }
 
@@ -62,7 +65,7 @@ export class FirebaseService {
 
   public getUser(userId: any): any {
   // this.userDoc = this._afs.doc('users/'+userId);
-  // return this.userDoc; 
+  // return this.userDoc;
 
     let auxUser: IUser;
 
@@ -70,7 +73,7 @@ export class FirebaseService {
     // this.foundUser =
       this.users.map(
         (items:IUser[]) => auxUser = items.find(p=> p.name == userId)
-        
+
       );
       //this.foundUser = auxUser[0];
     console.log("FOUND->:\n"+ auxUser);
@@ -105,17 +108,23 @@ export class FirebaseService {
   }
 
   //AcceptFriends functions
-  public acceptFriends(quiniela: IQuiniela): void {
-    //this.quinielaDoc = this._afs.doc('quinielas/${quiniela.idQuiniela}');
-    
-    this._quinUsersCollection = this._afs.collection<IQuiniela>('quinielas/'+quiniela.quinielakey+'/iusers');
-  this.quinUsers = this._quinUsersCollection.valueChanges();
+  public acceptFriend(quinielakey: string, friend: IUser): Promise<any> {
 
-     console.log("Path!\n"+quiniela.quinielakey);
-    // console.log("quinid:"+quiniela.quinielakey);
-    // //this.userDoc.add();
-    this._quinUsersCollection.add(quiniela);
+    this._quinUsersCollection = this._afs.collection<IUser>('quinielas/' + quinielakey + '/iusers');
 
+     console.log("Path!\n" + quinielakey);
+    return this._quinUsersCollection.add(friend);
+
+  }
+
+  public getUserRoundPicks(quinielakey:string, user:string, roundkey:string): AngularFirestoreCollection<IRoundPick> {
+
+    return this._afs.collection<IRoundPick>(`quinielas/${quinielakey}/iusers/${user}/userpicks/`);
+  }
+
+  public getTournamentRounds(tournamentkey: string): AngularFirestoreCollection<ITournament> {
+
+    return this._afs.collection<ITournament>(`tournament/${tournamentkey}/rounds/`);
   }
 
 }
