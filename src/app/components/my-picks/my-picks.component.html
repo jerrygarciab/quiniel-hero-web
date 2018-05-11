@@ -13,37 +13,37 @@
                     </thead>
                     <tbody>
 
-    <!-- <tr *ngFor="let game of gamespicks">
-                            <td class="local">{{game.local}}</td>
-                            <td class="gol">
-                                <div class="styled-select green rounded">
-                                <select formControlName="local{{game.match}}">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
-                                </div>
-                            </td>
-                            <td class="middleseparator"> - </td>
-                            <td>
-                                <select formControlName="visita{{game.match}}">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                </select>
-                            </td>
-                            <td class="visita">{{game.visita}}</td>
-                        </tr>-->
+                    <tr *ngFor="let match of matches">
+                    <td class="local">{{match.localteam}}</td>
+                    <td class="gol">
+                    <div class="styled-select green rounded">
+                    <select formControlName="{{match.matchid}}_localscore" [(ngModel)]="match.localscore">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    </select>
+                    </div>
+                    </td>
+                    <td class="middleseparator"> - </td>
+                    <td>
+                    <select formControlName="{{match.matchid}}_visitorscore" [(ngModel)]="match.visitorscore">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    </select>
+                    </td>
+                    <td class="visita">{{match.visitorteam}}</td>
+                    </tr>
                     </tbody>
                     </table>
             </div>

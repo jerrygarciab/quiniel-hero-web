@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {FirebaseService} from '../../shared/firebase.service';
 
-import {IRoundPick, IUser} from '../../shared/firebase';
+import {IMatch, IRoundPick, IUser} from '../../shared/firebase';
 
 @Component({
   selector: 'app-my-picks',
@@ -20,13 +20,14 @@ export class MyPicksComponent implements OnInit {
   public userRoundPicks: IRoundPick;
   public tournamentRounds: any;
   public matchCount: Array<number>;
-  public tournamentkey: string;
-  public roundkey: string;
+  public matches: IMatch[] = [];
+
+  public tournamentkey: string = 'i0w7ntnWsmMUC54V2uCo';
+  public roundkey: string = 'iOuqyd3iiKUh1dcVxAhX';
 
   constructor(private fb: FormBuilder,
               private _firebase: FirebaseService,
               private _route: ActivatedRoute) {
-    this.createForm();
     this.invalidField = false;
     this.matchCount = new Array(9);
     // this.picksgen();
@@ -43,8 +44,9 @@ export class MyPicksComponent implements OnInit {
         console.log(res);
       });
 
-    this.getUserRoundPicks();
+    this.getUserRoundPickMatches();
     this.getTournament();
+    this.createForm();
   }
 
   picksgen(): void {
@@ -64,14 +66,15 @@ export class MyPicksComponent implements OnInit {
 
 
   // TODO: Limit by one round-pick
-  getUserRoundPicks(): void {
+  getUserRoundPickMatches(): void {
     this._firebase
-      .getUserRoundPicks('zSy0blPOmOyPFFBqUrZY', 'si6PVSPEeug9UiitsMma', '2Kc6g2NsWHOQUtgNfeD1')
+      .getUserRoundPicksMatches('zSy0blPOmOyPFFBqUrZY', 'si6PVSPEeug9UiitsMma', 'ZNip81NlJeCzEHAUKmzL')
       .valueChanges()
       .subscribe(
-        roundPicks => {
-          console.log("Rounds"+roundPicks);
-          this.userRoundPicks = roundPicks[0];
+        (matches: IMatch[]) => {
+          console.log('Matches %o', matches);
+          this.matches = matches;
+          this.createForm();
         }
       );
   }
@@ -79,18 +82,18 @@ export class MyPicksComponent implements OnInit {
 
   getTournament(): void {
     this._firebase
-      .getTournamentRounds('i0w7ntnWsmMUC54V2uCo')
+      .getTournamentRounds(this.tournamentkey)
       .valueChanges()
       .subscribe(
         tournamentRounds => {
-          console.log(tournamentRounds);
+          console.log('Tournament Rounds: %o', tournamentRounds);
           this.tournamentRounds = tournamentRounds;
         }
       );
   }
 
 
-  savePicsInformation(post): void {
+  savePicksInformation(post): void {
 
     if (this.picksForm.valid) {
       //this._firebase.setUser(post);
@@ -107,26 +110,16 @@ export class MyPicksComponent implements OnInit {
   }
 
   createForm() {
-    this.picksForm = this.fb.group({
-      local01: [null, Validators.required],
-      visita01: [null, Validators.required],
-      local02: [null, Validators.required],
-      visita02: [null, Validators.required],
-      local03: [null, Validators.required],
-      visita03: [null, Validators.required],
-      local04: [null, Validators.required],
-      visita04: [null, Validators.required],
-      local05: [null, Validators.required],
-      visita05: [null, Validators.required],
-      local06: [null, Validators.required],
-      visita06: [null, Validators.required],
-      local07: [null, Validators.required],
-      visita07: [null, Validators.required],
-      local08: [null, Validators.required],
-      visita08: [null, Validators.required],
-      local09: [null, Validators.required],
-      visita09: [null, Validators.required],
-      userID: ['jdsjjjsdjdjsd'],
-    });
+    this.picksForm = this.fb.group(this.formFields());
+  }
+
+  formFields() {
+    let empArr = {};
+    for (let match of this.matches) {
+      empArr[`${match.matchid}_localscore`] = [match.localscore, [Validators.required]];
+      empArr[`${match.matchid}_visitorscore`] = [match.visitorscore, [Validators.required]];
+    }
+    console.log(empArr);
+    return empArr;
   }
 }
