@@ -2,7 +2,7 @@ import { Injectable }                                   from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable }                                   from 'rxjs/Observable';
 
-import {IUser, IQuiniela, IQuinUser, IRoundPick, ITournament} from './firebase';
+import {IUser, IQuiniela, IQuinUser, IRoundPick, ITournament, IMatch} from './firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 
@@ -117,14 +117,35 @@ export class FirebaseService {
 
   }
 
-  public getUserRoundPicks(quinielakey:string, user:string, roundkey:string): AngularFirestoreCollection<IRoundPick> {
+  public getUserRoundPicksMatches(quinielakey:string, user:string, userRoundPick:string): AngularFirestoreCollection<IMatch> {
 
-    return this._afs.collection<IRoundPick>(`quinielas/${quinielakey}/iusers/${user}/userpicks/`);
+    return this._afs.collection<IMatch>(`quinielas/${quinielakey}/iusers/${user}/userpicks/${userRoundPick}/matches/`);
   }
 
   public getTournamentRounds(tournamentkey: string): AngularFirestoreCollection<ITournament> {
 
     return this._afs.collection<ITournament>(`tournament/${tournamentkey}/rounds/`);
+  }
+
+  public setUserRoundPicksMatches(quinielakey:string, user:string, userRoundPick:string): AngularFirestoreCollection<IMatch> {
+
+    return this._afs.collection<IMatch>(`quinielas/${quinielakey}/iusers/${user}/userpicks/${userRoundPick}/matches/`);
+  }
+
+  public setPickMatches(matches:IMatch[]):Promise<any>{
+    return this._afs.app.firestore().runTransaction( (transaction) => {
+
+      matches.forEach( (match:IMatch)=>{
+        transaction.update( match, match);
+      })
+
+
+    }).then(function(matches) {
+      console.log("Matches saved ", matches);
+    }).catch(function(err) {
+      // This will be an "population is too big" error.
+      console.error(err);
+    });
   }
 
 }
