@@ -48,6 +48,7 @@ export interface IMatch {
   matchid:string;
   visitorscore:number;
   visitorteam:string;
+  matchkey?:string;
 }
 
 export interface ITournament {

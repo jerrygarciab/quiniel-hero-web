@@ -17,29 +17,29 @@
                     <td class="local">{{match.localteam}}</td>
                     <td class="gol">
                     <div class="styled-select green rounded">
-                    <select formControlName="{{match.matchid}}_localscore" [(ngModel)]="match.localscore">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
+                    <select formControlName="{{match.matchid}}_localscore" [(ngModel)]="match.localscore" name="{{match.matchid}}_localscore">
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
                     </select>
                     </div>
                     </td>
                     <td class="middleseparator"> - </td>
                     <td>
                     <select formControlName="{{match.matchid}}_visitorscore" [(ngModel)]="match.visitorscore">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
                     </select>
                     </td>
                     <td class="visita">{{match.visitorteam}}</td>
@@ -49,6 +49,7 @@
             </div>
     </div>
     <div class="form-row align-items-center">
+            <!-- <button (click)="sendPicks()">TESTSEND</button> -->
             <button [disabled]="!picksForm.valid && picksForm.submitted" type="submit" class="btn btn-primary">Enviar Picks</button>
           </div>
           <!-- <div class="form-row align-items-center">

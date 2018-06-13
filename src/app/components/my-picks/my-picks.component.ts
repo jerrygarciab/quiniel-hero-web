@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl, Validators, COMPOSITION_BUFFER_MODE} from '@angular/forms';
 
 import {ActivatedRoute} from '@angular/router';
 import {FirebaseService} from '../../shared/firebase.service';
 
 import {IMatch, IRoundPick, IUser} from '../../shared/firebase';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+
 
 @Component({
   selector: 'app-my-picks',
@@ -25,6 +27,9 @@ export class MyPicksComponent implements OnInit {
   public tournamentkey: string = 'i0w7ntnWsmMUC54V2uCo';
   public roundkey: string = 'iOuqyd3iiKUh1dcVxAhX';
 
+  private _matchpickCollection: AngularFirestoreCollection<IMatch>;
+  public matchpickDoc:      AngularFirestoreDocument<IMatch>;
+
   constructor(private fb: FormBuilder,
               private _firebase: FirebaseService,
               private _route: ActivatedRoute) {
@@ -32,6 +37,7 @@ export class MyPicksComponent implements OnInit {
     this.matchCount = new Array(9);
     // this.picksgen();
     // this.goles = Array.from(new Array(9), (x,i) => i+1);
+    
   }
 
   ngOnInit() {
@@ -44,6 +50,7 @@ export class MyPicksComponent implements OnInit {
         console.log(res);
       });
 
+      
     this.getUserRoundPickMatches();
     this.getTournament();
     this.createForm();
@@ -74,6 +81,7 @@ export class MyPicksComponent implements OnInit {
         (matches: IMatch[]) => {
           console.log('Matches %o', matches);
           this.matches = matches;
+          
           this.createForm();
         }
       );
@@ -95,18 +103,45 @@ export class MyPicksComponent implements OnInit {
 
   savePicksInformation(post): void {
 
-    if (this.picksForm.valid) {
+   
+if (this.picksForm.valid) {
       //this._firebase.setUser(post);
+      console.log("SAved items");
       console.log(post);
+//this.sendPicks(post);
       this.picksForm.reset();
+      this._firebase.getUserMatchpicks('zSy0blPOmOyPFFBqUrZY', 'si6PVSPEeug9UiitsMma', 'ZNip81NlJeCzEHAUKmzL');
+  //  this._firebase.getMatch("191");
+//console.log();
+    this._firebase.matchpicks.forEach(result => {
+                        result.forEach(matchk => {
+                          matchk.localscore = post[`${matchk.matchid}_localscore`];
+                          matchk.visitorscore = post[`${matchk.matchid}_visitorscore`];
+                          let upy = this._firebase.updateMatch('zSy0blPOmOyPFFBqUrZY', 'si6PVSPEeug9UiitsMma', 'ZNip81NlJeCzEHAUKmzL', matchk);
+                          console.log("Changes for"+matchk.matchkey+"done");
+                        })
+                      });
+      this.invalidField = true;    
     } else {
       this.invalidField = true;
     }
 
   }
 
-  sendPicks(): void {
-
+  sendPicks(post): void {
+    // url to matches
+    console.log("Saving");
+   this._firebase.getUserMatchpicks('zSy0blPOmOyPFFBqUrZY', 'si6PVSPEeug9UiitsMma', 'ZNip81NlJeCzEHAUKmzL');
+  //  this._firebase.getMatch("191");
+//console.log();
+    this._firebase.matchpicks.forEach(result => {
+                        result.forEach(matchk => {
+                          matchk.localscore = post[`${matchk.matchid}_localscore`];
+                          this._firebase.updateMatch('zSy0blPOmOyPFFBqUrZY', 'si6PVSPEeug9UiitsMma', 'ZNip81NlJeCzEHAUKmzL', matchk);
+                          console.log("Changes for"+matchk.matchkey+"done");
+                        })
+                      })    
+    console.log("Saved.YAH");
   }
 
   createForm() {
@@ -118,7 +153,11 @@ export class MyPicksComponent implements OnInit {
     for (let match of this.matches) {
       empArr[`${match.matchid}_localscore`] = [match.localscore, [Validators.required]];
       empArr[`${match.matchid}_visitorscore`] = [match.visitorscore, [Validators.required]];
+
+      //empArr[`${match.matchid}_visitorscore`] = [match.visitorscore, [Validators.required]];
+      //console.log("MatchIdProcessed"+match.matchId);
     }
+    console.log("EMP ARR:");
     console.log(empArr);
     return empArr;
   }

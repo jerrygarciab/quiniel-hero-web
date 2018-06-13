@@ -22,6 +22,11 @@ export class FirebaseService {
   public quinielaDoc:       AngularFirestoreDocument<IQuiniela>;
 
 
+  private _matchpickCollection: AngularFirestoreCollection<IMatch>;
+  public matchpicks:             Observable<IMatch[]>;
+  public matchpickDoc:      AngularFirestoreDocument<IMatch>;
+
+
   constructor(private _afs: AngularFirestore) {
 
     this._usersCollection = this._afs.collection<IUser>('users', x => x.orderBy('username', 'asc'));
@@ -127,25 +132,70 @@ export class FirebaseService {
     return this._afs.collection<ITournament>(`tournament/${tournamentkey}/rounds/`);
   }
 
-  public setUserRoundPicksMatches(quinielakey:string, user:string, userRoundPick:string): AngularFirestoreCollection<IMatch> {
+  
+  
+    public getUserMatchpicks(quinielakey:string, user:string, userRoundPick:string): void {
+    // console.log("Getting matchesID");
+    this._matchpickCollection = this._afs.collection<IMatch>(`quinielas/${quinielakey}/iusers/${user}/userpicks/${userRoundPick}/matches/`, x => x.orderBy('matchid', 'asc'));
+    this.matchpicks = this._matchpickCollection.snapshotChanges().map(
+                  changes => {
+                    return changes.map(
+                      a => {
+                        const matchdata = a.payload.doc.data() as IMatch;
+                        matchdata.matchkey = a.payload.doc.id;
+                        return matchdata;
+                      });
+                  }
+              );
+   
+    // this.matchpickDoc = this._afs.doc(`quinielas/${quinielakey}/iusers/${user}/userpicks/${userRoundPick}/matches/${matchid}/`);
+    // this.matchpickDoc.update(matchpick);
+  }
+  public getMatchPicks(): Observable<IMatch[]> {
 
-    return this._afs.collection<IMatch>(`quinielas/${quinielakey}/iusers/${user}/userpicks/${userRoundPick}/matches/`);
+    return this.matchpicks;
+
   }
 
-  public setPickMatches(matches:IMatch[]):Promise<any>{
-    return this._afs.app.firestore().runTransaction( (transaction) => {
+  public getMatch(matchId: string): any {
+    // this.userDoc = this._afs.doc('users/'+userId);
+    // return this.userDoc;
+  
+      let auxMatch: IMatch;
+  
+    if(Object.keys(this.matchpicks).length !=0){
+      // this.foundUser =
+        this.matchpicks.map(
+          (items:IMatch[]) => auxMatch = items.find(p=> p.matchid == matchId)
+  
+        );
+        //this.foundUser = auxUser[0];
+      console.log("FOUND->:\n"+ auxMatch);
+      return auxMatch;
+    }
+  //console.log("NAME:"+this.users.)
+     return 0;
+  
+    }
 
-      matches.forEach( (match:IMatch)=>{
-        transaction.update( match, match);
-      })
+  public updateMatch(quinielakey:string, user:string, userRoundPick:string, matchdata: IMatch): any {
+      return this._afs.doc<IMatch>(`quinielas/${quinielakey}/iusers/${user}/userpicks/${userRoundPick}/matches/${matchdata.matchkey}`).update({localscore:matchdata.localscore, visitorscore:matchdata.visitorscore});
+    }
+
+  // public setPickMatches(matches:IMatch[]):Promise<any>{
+  //   return this._afs.app.firestore().runTransaction( (transaction) => {
+
+  //     matches.forEach( (match:IMatch)=>{
+  //       transaction.update( matches[match.matchId], match);
+  //     })
 
 
-    }).then(function(matches) {
-      console.log("Matches saved ", matches);
-    }).catch(function(err) {
-      // This will be an "population is too big" error.
-      console.error(err);
-    });
-  }
+  //   }).then(function(matches) {
+  //     console.log("Matches saved ", matches);
+  //   }).catch(function(err) {
+  //     // This will be an "population is too big" error.
+  //     console.error(err);
+  //   });
+  // }
 
 }
